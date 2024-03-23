@@ -1,6 +1,8 @@
-package com.example.Blog.entity;
+package com.example.blog.entity;
 
+import com.example.blog.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,18 +13,20 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
-    @Column
+    @NotBlank
+    @Column(nullable = false)
     private String email;
 
-    @Column
+    @NotBlank
+    @Column(nullable = false)
     private String password;
 
     @Column
@@ -30,6 +34,10 @@ public class User {
 
     @Column
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts;

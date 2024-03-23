@@ -1,8 +1,9 @@
-package com.example.Blog.controller;
+package com.example.blog.controller;
 
-import com.example.Blog.entity.Post;
-import com.example.Blog.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.blog.dto.PostDTO;
+import com.example.blog.entity.Post;
+import com.example.blog.mapper.PostMapper;
+import com.example.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,47 +15,46 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final PostMapper postMapper;
 
-    @Autowired
-    private PostController(PostService postService) {
+    private PostController(PostService postService, PostMapper postMapper) {
+        this.postMapper = postMapper;
         this.postService = postService;
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        Post createdPost = postService.createPost(post);
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+        PostDTO createdPost = postService.createPost(postDTO);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
+        List<PostDTO> posts = postService.getAllPosts();
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
-        Post post = postService.getPostById(id);
+    public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
+        PostDTO post = postService.getPostById(id);
         return post != null
                 ? new ResponseEntity<>(post, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post post) {
-        Post updatedPost = postService.update(id, post);
+    public ResponseEntity<PostDTO> updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
+        PostDTO updatedPost = postService.update(id, postDTO);
         return updatedPost != null
                 ? new ResponseEntity<>(updatedPost, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Post> deletePost(@PathVariable Long id) {
         boolean deleted = postService.deletePost(id);
         return deleted
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
 }

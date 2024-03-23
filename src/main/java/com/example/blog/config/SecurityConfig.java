@@ -1,4 +1,4 @@
-package com.example.Blog.config;
+package com.example.blog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +20,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+//                .csrf().disable()
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
-                )
-                .formLogin()
-                .and()
-                .httpBasic();
+                );
+//                .formLogin()
+//                .and()
+//                .httpBasic();
         return http.build();
     }
 }
