@@ -7,17 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
-    public Optional<Post> getById(Long id) {
-        return postRepository.findById(id);
-    }
 
     public List<Post> getAll() {
         return postRepository.findAll();
@@ -30,4 +25,37 @@ public class PostService {
         }
         return postRepository.save(post);
     }
+
+    public List<Post> getAllPosts(){
+        return postRepository.findAll();
+    }
+
+    public Post getPostById(Long id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
+    public Post update(Long id, Post postDetails) {
+        Post existingPost = postRepository.findById(id)
+                .orElse(null);
+
+        if (existingPost != null) {
+            existingPost.setTitle(postDetails.getTitle());
+            existingPost.setBody(postDetails.getBody());
+            existingPost.setUpdatedAt(LocalDateTime.now());
+            return postRepository.save(existingPost);
+        }
+
+
+        return null;
+    }
+
+    public boolean deletePost(Long id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
+
 }
