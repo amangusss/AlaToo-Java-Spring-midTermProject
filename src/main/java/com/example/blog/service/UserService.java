@@ -24,16 +24,12 @@ public class UserService {
     }
 
     public UserDTO registerUser(UserDTO userDTO) {
-        Users users = userMapper.userDTOToUsers(userDTO);
-        String encodedPassword = passwordEncoder.encode(users.getPassword());
-        users.setPassword(encodedPassword);
-        users.setRole(Role.USER);
-        Users savedUser = userRepository.save(users);
+        Users user = userMapper.userDTOToUsers(userDTO);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRole(Role.USER);
+        Users savedUser = userRepository.save(user);
         return userMapper.userToUserDTO(savedUser);
-    }
-
-    public Users createUser(Users users) {
-        return userRepository.save(users);
     }
 
     public Users findByEmail(String email) {

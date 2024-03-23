@@ -30,7 +30,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserDTO userDTO) {
-        UserDTO registeredUsers = userService.registerUser(userMapper.userDTOToUsers(userDTO));
+        Users users = userMapper.userDTOToUsers(userDTO);
+        UserDTO registeredUsers = userService.registerUser(userMapper.userToUserDTO(users));
         UserResponse userResponse = userMapper.usersToUserResponse(registeredUsers);
         return ResponseEntity.ok(userResponse);
     }
