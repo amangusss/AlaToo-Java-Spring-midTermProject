@@ -1,6 +1,6 @@
 package com.example.blog.service;
 
-import com.example.blog.dto.UserDTO;
+import com.example.blog.dto.UserResponse;
 import com.example.blog.entity.Users;
 import com.example.blog.mapper.UserMapper;
 import com.example.blog.enums.Role;
@@ -23,13 +23,13 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserDTO registerUser(UserDTO userDTO) {
-        Users user = userMapper.userDTOToUsers(userDTO);
+    public UserResponse registerUser(UserResponse userResponse) {
+        Users user = userMapper.toEntity(userResponse);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole(Role.USER);
         Users savedUser = userRepository.save(user);
-        return userMapper.userToUserDTO(savedUser);
+        return userMapper.toModel(savedUser);
     }
 
     public Users findByEmail(String email) {

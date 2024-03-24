@@ -1,12 +1,14 @@
 package com.example.blog.mapper;
 
-import com.example.blog.dto.PostDTO;
+import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Post;
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+@Mapper(componentModel = "spring")
 public interface PostMapper {
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
-    PostDTO postToPostDTO(Post post);
-    Post postDTOToPost(PostDTO postDTO);
+    PostResponse toModel(Post post);
+    Post toEntity(PostResponse postResponse);
 }

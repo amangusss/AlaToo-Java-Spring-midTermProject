@@ -1,6 +1,7 @@
 package com.example.blog.service;
 
-import com.example.blog.dto.PostDTO;
+import com.example.blog.dto.PostRequest;
+import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Post;
 import com.example.blog.mapper.PostMapper;
 import com.example.blog.repository.PostRepository;
@@ -21,37 +22,37 @@ public class PostService {
         this.postMapper = postMapper;
     }
 
-    public PostDTO createPost(PostDTO postDTO) {
-        Post postEntity = postMapper.postDTOToPost(postDTO);
+    public PostResponse createPost(PostResponse postResponse) {
+        Post postEntity = postMapper.toEntity(postResponse);
         postEntity.setCreatedAt(LocalDateTime.now());
         postEntity.setUpdatedAt(LocalDateTime.now());
         Post savedPost = postRepository.save(postEntity);
-        return postMapper.postToPostDTO(savedPost);
+        return postMapper.toModel(savedPost);
     }
 
-    public List<PostDTO> getAllPosts(){
+    public List<PostResponse> getAllPosts(){
         List<Post> posts = postRepository.findAll();
         return posts.stream()
-                .map(postMapper::postToPostDTO)
+                .map(postMapper::toModel)
                 .collect(Collectors.toList());
     }
 
-    public PostDTO getPostById(Long id) {
+    public PostResponse getPostById(Long id) {
         Post post = postRepository.findById(id)
                 .orElse(null);
-        return post != null ? postMapper.postToPostDTO(post) : null;
+        return post != null ? postMapper.toModel(post) : null;
     }
 
-    public PostDTO update(Long id, PostDTO postDTO) {
+    public PostResponse update(Long id, PostResponse postResponse) {
         Post existingPost = postRepository.findById(id)
                 .orElse(null);
 
         if (existingPost != null) {
-            Post updatedPost = postMapper.postDTOToPost(postDTO);
+            Post updatedPost = postMapper.toEntity(postResponse);
             updatedPost.setId(id);
             updatedPost.setCreatedAt(existingPost.getCreatedAt());
             updatedPost.setUpdatedAt(LocalDateTime.now());
-            return postMapper.postToPostDTO(postRepository.save(updatedPost));
+            return postMapper.toModel(postRepository.save(updatedPost));
         }
 
         return null;
