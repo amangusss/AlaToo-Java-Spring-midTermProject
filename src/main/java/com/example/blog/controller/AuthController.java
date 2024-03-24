@@ -5,6 +5,8 @@ import com.example.blog.dto.UserResponse;
 import com.example.blog.entity.Users;
 import com.example.blog.mapper.UserMapper;
 import com.example.blog.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/auth")
+@Tag(
+        name = "Authorization Controller",
+        description = "Controller for operations with users"
+)
 public class AuthController {
 
     private final UserService userService;
@@ -28,6 +34,9 @@ public class AuthController {
         this.userMapper = userMapper;
     }
 
+    @Operation(
+            summary = "User registrations"
+    )
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest userRequest) {
         Users users = userMapper.toEntity(userRequest);
@@ -36,7 +45,9 @@ public class AuthController {
         return ResponseEntity.ok(userResponse);
     }
 
-
+    @Operation(
+            summary = "User login"
+    )
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Users users) {
         Users foundUsers = userService.findByEmail(users.getEmail());
