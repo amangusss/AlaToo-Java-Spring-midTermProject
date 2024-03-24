@@ -35,4 +35,6 @@ public class PostControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(posts, responseEntity.getBody());
     }
+
+
 }
