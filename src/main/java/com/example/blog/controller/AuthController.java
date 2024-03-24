@@ -3,7 +3,6 @@ package com.example.blog.controller;
 import com.example.blog.dto.UserRequest;
 import com.example.blog.dto.UserResponse;
 import com.example.blog.entity.Users;
-import com.example.blog.mapper.UserMapper;
 import com.example.blog.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,13 +24,11 @@ public class AuthController {
 
     private final UserService service;
     private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
 
     @Autowired
-    public AuthController(UserService service, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public AuthController(UserService service, PasswordEncoder passwordEncoder) {
         this.service = service;
         this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
     }
 
     @Operation(

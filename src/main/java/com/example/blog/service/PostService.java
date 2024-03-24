@@ -5,13 +5,11 @@ import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Post;
 import com.example.blog.mapper.PostMapper;
 import com.example.blog.repository.PostRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostService {

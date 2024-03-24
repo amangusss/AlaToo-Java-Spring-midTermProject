@@ -1,6 +1,5 @@
 package com.example.blog.dto;
 
-import com.example.blog.enums.Role;
 import lombok.Data;
 
 @Data

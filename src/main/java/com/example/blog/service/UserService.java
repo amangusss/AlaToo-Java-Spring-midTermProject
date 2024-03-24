@@ -30,8 +30,7 @@ public class UserService {
         user.setPassword(encodedPassword);
         user.setRole(Role.USER);
         user = userRepository.save(user);
-        UserResponse userResponse = userMapper.toModel(user);
-        return userResponse;
+        return userMapper.toModel(user);
     }
 
     public Users findByEmail(String email) {
