@@ -36,7 +36,7 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         return posts.stream()
                 .map(postMapper::toModel)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public PostResponse getPostById(Long id) {

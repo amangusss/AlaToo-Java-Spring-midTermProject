@@ -47,5 +47,4 @@ public class AuthControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(userResponse, responseEntity.getBody());
     }
-
 }
