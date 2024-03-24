@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.dto.UserRequest;
 import com.example.blog.dto.UserResponse;
 import com.example.blog.entity.Users;
 import com.example.blog.mapper.UserMapper;
@@ -28,11 +29,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@RequestBody UserResponse userResponse) {
-        Users users = userMapper.toEntity(userResponse);
-        UserResponse registeredUsers = userService.registerUser(userMapper.toModel(users));
-        return ResponseEntity.ok(registeredUsers);
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest userRequest) {
+        Users users = userMapper.toEntity(userRequest);
+        Users registeredUsers = userService.registerUser(users);
+        UserResponse userResponse = userMapper.toModel(registeredUsers);
+        return ResponseEntity.ok(userResponse);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Users users) {

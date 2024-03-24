@@ -5,6 +5,8 @@ import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Post;
 import com.example.blog.mapper.PostMapper;
 import com.example.blog.repository.PostRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,12 +24,12 @@ public class PostService {
         this.postMapper = postMapper;
     }
 
-    public PostResponse createPost(PostResponse postResponse) {
-        Post postEntity = postMapper.toEntity(postResponse);
-        postEntity.setCreatedAt(LocalDateTime.now());
-        postEntity.setUpdatedAt(LocalDateTime.now());
-        Post savedPost = postRepository.save(postEntity);
-        return postMapper.toModel(savedPost);
+    public ResponseEntity<PostResponse> createPost(PostRequest postRequest) {
+        Post post = postMapper.toEntity(postRequest);
+        Post createdPost = postRepository.save(post);
+        PostResponse postResponse = postMapper.toModel(createdPost);
+        post.setUpdatedAt(LocalDateTime.now());
+        return ResponseEntity.ok(postResponse);
     }
 
     public List<PostResponse> getAllPosts(){
@@ -43,16 +45,18 @@ public class PostService {
         return post != null ? postMapper.toModel(post) : null;
     }
 
-    public PostResponse update(Long id, PostResponse postResponse) {
+    public PostResponse update(Long id, PostRequest postRequest) {
         Post existingPost = postRepository.findById(id)
                 .orElse(null);
 
         if (existingPost != null) {
-            Post updatedPost = postMapper.toEntity(postResponse);
+            Post post = postMapper.toEntity(postRequest);
+            Post updatedPost = postRepository.save(post);
+            PostResponse postResponse = postMapper.toModel(updatedPost);
             updatedPost.setId(id);
             updatedPost.setCreatedAt(existingPost.getCreatedAt());
             updatedPost.setUpdatedAt(LocalDateTime.now());
-            return postMapper.toModel(postRepository.save(updatedPost));
+            return postResponse;
         }
 
         return null;

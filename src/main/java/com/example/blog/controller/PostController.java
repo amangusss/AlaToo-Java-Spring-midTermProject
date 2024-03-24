@@ -16,17 +16,14 @@ import java.util.List;
 public class PostController {
 
     private final PostService service;
-    private final PostMapper postMapper;
 
-    private PostController(PostService postService, PostService service, PostMapper postMapper) {
+    private PostController(PostService service) {
         this.service = service;
-        this.postMapper = postMapper;
     }
 
     @PostMapping
-    public ResponseEntity<PostResponse> createPost(@RequestBody PostResponse postResponse) {
-        PostResponse createdPost = service.createPost(postResponse);
-        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+    public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest postRequest) {
+        return service.createPost(postRequest);
     }
 
     @GetMapping
@@ -44,10 +41,9 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponse> updatePost(@PathVariable Long id, @RequestBody PostResponse postResponse) {
-        PostResponse updatedPost = service.update(id, postResponse);
-        return updatedPost != null
-                ? new ResponseEntity<>(updatedPost, HttpStatus.OK)
+    public ResponseEntity<PostResponse> updatePost(@PathVariable Long id, @RequestBody PostRequest postRequest) {
+        return postRequest != null
+                ? new ResponseEntity<>(service.update(id, postRequest), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

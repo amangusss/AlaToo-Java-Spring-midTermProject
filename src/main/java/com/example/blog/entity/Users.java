@@ -39,6 +39,6 @@ public class Users {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "users")
     private List<Post> posts;
 }
