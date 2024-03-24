@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.dto.UserLogin;
 import com.example.blog.dto.UserRequest;
 import com.example.blog.dto.UserResponse;
 import com.example.blog.entity.Users;
@@ -43,9 +44,9 @@ public class AuthController {
             summary = "User login"
     )
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Users users) {
-        Users foundUsers = service.findByEmail(users.getEmail());
-        if (foundUsers != null && passwordEncoder.matches(users.getPassword(), foundUsers.getPassword())) {
+    public ResponseEntity<String> loginUser(@RequestBody UserLogin login) {
+        Users foundUsers = service.findByEmail(login.getEmail());
+        if (foundUsers != null && passwordEncoder.matches(login.getPassword(), foundUsers.getPassword())) {
             return ResponseEntity.ok("Successful Authorization");
         } else {
             return ResponseEntity.badRequest().body("Incorrect credentials");
