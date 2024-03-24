@@ -3,7 +3,6 @@ package com.example.blog.controller;
 import com.example.blog.dto.PostRequest;
 import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Post;
-import com.example.blog.mapper.PostMapper;
 import com.example.blog.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class AuthController {
 
-    private final UserService userService;
+    private final UserService service;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     @Autowired
-    public AuthController(UserService userService, PasswordEncoder passwordEncoder, UserMapper userMapper) {
-        this.userService = userService;
+    public AuthController(UserService service, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+        this.service = service;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
@@ -39,10 +39,7 @@ public class AuthController {
     )
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest userRequest) {
-        Users users = userMapper.toEntity(userRequest);
-        Users registeredUsers = userService.registerUser(users);
-        UserResponse userResponse = userMapper.toModel(registeredUsers);
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(service.registerUser(userRequest));
     }
 
     @Operation(
@@ -50,7 +47,7 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Users users) {
-        Users foundUsers = userService.findByEmail(users.getEmail());
+        Users foundUsers = service.findByEmail(users.getEmail());
         if (foundUsers != null && passwordEncoder.matches(users.getPassword(), foundUsers.getPassword())) {
             return ResponseEntity.ok("Successful Authorization");
         } else {
