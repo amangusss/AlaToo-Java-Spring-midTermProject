@@ -2,6 +2,7 @@ package com.example.blog.entity;
 
 import com.example.blog.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Users {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     @Column(nullable = false)
     private String email;
 
@@ -29,9 +31,11 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
+    @NotBlank
     @Column
     private String firstName;
 
+    @NotBlank
     @Column
     private String lastName;
 

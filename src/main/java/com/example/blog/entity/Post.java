@@ -2,7 +2,6 @@ package com.example.blog.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -27,13 +26,15 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
+    @NotBlank
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @NotBlank
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @NotNull
+    @NotBlank
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private Users users;
