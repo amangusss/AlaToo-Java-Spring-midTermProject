@@ -4,6 +4,9 @@
 
 This project is a web application for creating, managing, and sharing blog posts. Users can register, log in, write and edit posts, and comment on other users' posts.
 
+## Video Embed
+[![Watch the video](https://img.youtube.com/vi/BmdsBOodBqI/maxresdefault.jpg)](https://youtu.be/BmdsBOodBqI)
+
 ## 2. Features
 
 User registration and authentication
